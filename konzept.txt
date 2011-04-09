@@ -1,4 +1,4 @@
-<!-- Bitte beachtet die Formatierungsrichtlinien in readme.txt -->
+<!-- Bitte beachtet die Formatierungsrichtlinien in README -->
 
 -	Aufgabenstellung <!-- mehr oder weniger Copy-Paste aus OLAT -->
 -	Kurze Spielbeschreibung
