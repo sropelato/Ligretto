@@ -1,0 +1,21 @@
+<!-- Bitte beachtet die Formatierungsrichtlinien in readme.txt -->
+
+-	Aufgabenstellung <!-- mehr oder weniger Copy-Paste aus OLAT -->
+-	Kurze Spielbeschreibung
+-	Problemanalyse <!-- wo liegen die Probleme oder Schwierigkeiten in einer Ligrettosimulation mit verteilten Systemen? -->
+		-	Concurrency-Problem
+-	Lösungsansatz
+	-	RMI vs. RPC
+-	Spielalgorithmus
+	-	Strategie
+	-	KI
+	-	Ablaufdiagramm
+-	Datenstrukturen
+	-	Klassendiagramm <!-- falls RMI -->
+	-	Header- / C-Files <!-- falls RPC -->
+-	Schnittstellen
+	-	RMI-Interfaces <!-- falls RMI -->
+	-	X-Files <!-- falls RPC -->
+-	Erwartetes Ergebnis
+	-	Realitätsnähe
+	-	Skalierbarkeit
