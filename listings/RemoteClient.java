@@ -9,6 +9,6 @@ import java.rmi.RemoteException;
  */
 public interface RemoteClient extends Remote {
 	
-	public boolean ping() throws RemoteException;
+	boolean ping() throws RemoteException;
 	
 }
