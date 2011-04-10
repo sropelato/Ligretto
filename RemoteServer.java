@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- * Stellt alle Server-Informationen für die Clients zur Verfuegung.
+ * 
  * @author 
  */
 public interface RemoteServer extends Remote {

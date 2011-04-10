@@ -2,11 +2,11 @@
 % -----------------------------------------------------------------------------
 % User settings
 % -----------------------------------------------------------------------------
-%\myDoctype {Bachelorarbeit}
+%\myDoctype {}
 %\myDivision {}
-%\myTitle {Sicherheitsanalyse einer Marktplattform}
-%\mySubTitle {Bachelorarbeit 2011}
-%\myAuthor {Rolf Koch, Matthias Kaeser, Patrick Pelleschi}
+%\myTitle {}
+%\mySubTitle {}
+%\myAuthor {Rolf Koch}
 %\myVersion {1.0}
 %\myLanguage{german} % german or english
 % -----------------------------------------------------------------------------
@@ -24,13 +24,16 @@
 \documentclass[a4paper,oneside,notitlepage]{scrartcl}
 \pdfcompresslevel=9
 
-%German Language
-\usepackage[ngerman]{babel} 
+
 
 % define input encoding
-\usepackage[latin1]{inputenc}
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
 
-\usepackage{textcomp}
+
+
+%German Language
+\usepackage[ngerman]{babel}
 
 \newcommand{\authors}{Rolf Koch, Sandro Ropelato, Michael Schwarz, \\Andreas Ruckstuhl, Christof Würmli}
 \newcommand{\batitle}{Ligretto}
@@ -49,7 +52,7 @@
 	breaklinks=true,
 	pdfnewwindow=true,
 	pdfauthor=\authors,
-	pdftitle=VSY: \batitle,
+	pdftitle=VSY: \batitle
 	%   pdfcreationdate=D:\pdfdate,
 	%   pdfmoddate=D:\pdfdate,
 	%   pdfsubject=pdfsuject,
