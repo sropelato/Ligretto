@@ -1,0 +1,30 @@
+\section{Aufgabenstellung} 
+
+Der Verlauf eines Ligretto-Spiel soll simuliert werden können. Um echten Zufall ins Spiel zu bringen, soll das Spiel über mehrere Maschinen verteilt werden
+
+ \begin{itemize}
+ \item Auf dem \textbf{Eingangsserver} lassen Sie einen Webserver laufen. Ein POST-Request auf den Server initiiert eine Ligretto-Simulation und liefert einen Link über den das Resultat per Polling abgholt werden kann. Das Resultat der Simulation wird  unter diesem Link als XHMTL-Seite präsentiert. Während der Berechnung wird eine Seite mit dem Text "in Bearbeitung" angezeigt.
+ \item Eingangsparameter: Ausgangslage des Spiels (Verteilung der Karten) und implizit die Anzahl Spieler. Rückgabewert: Punkteverteilung für die Spieler
+ \item Dieser Eingangsserver sei bereits komplett definiert. Sie erhalten die Daten aus dem POST-Request in der von Ihnen gewünschten Datenstruktur zur Weiterverarbeitung.
+ \item Um das \textbf{Mischeln und Verteilen} der Karten müssen Sie sich nicht kümmern. Der Eingangsserver liefert ja bereits die Spielsituation genau vor Beginn des Spiels. Zu diesem Zeitpunkt sind die Karten verteilt und Spezialregeln (neue Karten bei >= 30 Punkte) sind bereits erfüllt. Aber Sie müssen dafür Sorgen, dass die \textbf{Clients die nötigen Informationen vom Eingangsserver} erhalten. Dies ist Abhängig von der von Ihnen gewählen Implementation.
+ \item Ihnen stehen für die Simulation eine bestimmte \textbf{Anzahl Rechner} zur Verfügung. Die Rechner haben sich vorgängig beim Eingangsserver gemeldet, so dass er eine Liste der verwendbaren Clients hat und damit die Anzahl der verwendbaren Rechner kennt. Sie brauchen sich nicht darum zukümmern wie sich die Clients beim Server anmelden.
+ \item Die \textbf{CPU-Leistung} ist nicht zu optimieren.
+ \item Die \textbf{Berechnungszeit} ist  nicht zu optimieren.
+ \item Beschreiben Sie den \textbf{Algorithmus} vollständig (Ax im Bewertungsmassstab). Sie beginnen ab dem Moment wo Sie die Daten vom Eingangsserver erhalten (in der von Ihnen definierten Datenstruktur). Das erste wird wohl die Verteilung der Daten auf die Client-Rechner seind.
+ \item Beschreiben Sie alle verwendeten \textbf{Datenstrukturen} inklusive der Deklaration in Java oder C/C++.
+ \item Beschreiben Sie die \textbf{Schnittstellen} als RPC x-File oder RMI-Interface. Nur die Schnittstellen die während dem Spiel benutzt werden sind hier verlangt.
+ \item Die Anzahl Ziffern (1-10) und Frontfarben (4 verschiedene) sind unveränderliche Konstanten
+ \item Wie \textbf{skalliert} das System mit Zunahme der Anzahl Spieler?
+ \item Die restlichen Bewertungskriterien (wie Rechnerausfall etc.) können Sie weglassen
+ \item Die \textbf{Spielstrategie} können Sie an eine Funktion KI auslagern. Wenn Sie also aus spieltechnischen Ueberlegungen eine Karte nicht legen wollen, obwohl es möglich wäre, so kann diese Entscheidung durch diese KI-Funktione ermittelt werden. Sie müssen allerdings die für die Entscheidung nötigen Informationen dieser Funktion zur Verfügung stellen. D.h. Sie müssen sich überlegen welche Informationen nötig sind und woher diese Informationen besorgt werden. Aber um die Implementation der Spieletheorie müssen Sie sich nicht kümmern.
+\end{itemize}
+	
+	
+% Beispiel um eine Grafik einzubinden
+	
+%\begin{figure}[hbt]
+%  \centering
+%  \includegraphics[width=0.65\textwidth,angle=0]{graphics/zhaw.png}
+%  \caption{ZHAW Logo}
+%  \hfill{} }
+% \end{figure}

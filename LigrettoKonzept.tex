@@ -1,0 +1,148 @@
+%\documentclass{templatearticle}
+% -----------------------------------------------------------------------------
+% User settings
+% -----------------------------------------------------------------------------
+%\myDoctype {Bachelorarbeit}
+%\myDivision {}
+%\myTitle {Sicherheitsanalyse einer Marktplattform}
+%\mySubTitle {Bachelorarbeit 2011}
+%\myAuthor {Rolf Koch, Matthias Kaeser, Patrick Pelleschi}
+%\myVersion {1.0}
+%\myLanguage{german} % german or english
+% -----------------------------------------------------------------------------
+% Document: provide the two files abstract.tex and history.tex
+% -----------------------------------------------------------------------------
+%\begin{document}
+%\setupLanguage            % setup configured language
+%\setupWatermarks          % setup watermarks
+%\printTitlePage{abstract} % include "abstract.tex"
+%\printLeader{history}     % include "history.tex"
+% -----------------------------------------------------------------------------
+% Input user files with LaTex text sections
+% -----------------------------------------------------------------------------
+
+\documentclass[a4paper,oneside,notitlepage]{scrartcl}
+\pdfcompresslevel=9
+
+%German Language
+\usepackage[ngerman]{babel} 
+
+% define input encoding
+\usepackage[latin1]{inputenc}
+
+\usepackage{textcomp}
+
+\newcommand{\authors}{Rolf Koch, Sandro Ropelato, Michael Schwarz, \\Andreas Ruckstuhl, Christof Würmli}
+\newcommand{\batitle}{Ligretto}
+
+
+% for hyperlinks (TODO: configure hyperref package)
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true, 
+	linkcolor=blue,
+	citecolor=blue,
+	filecolor=blue,
+	menucolor=black,
+	%   pagecolor=black,
+	urlcolor=blue,
+	breaklinks=true,
+	pdfnewwindow=true,
+	pdfauthor=\authors,
+	pdftitle=VSY: \batitle,
+	%   pdfcreationdate=D:\pdfdate,
+	%   pdfmoddate=D:\pdfdate,
+	%   pdfsubject=pdfsuject,
+	%   pdfkeywords=pdfkeywords
+}
+
+% to include a PDF directly into the generated document
+\usepackage{pdfpages}
+
+% Marking entries as Todo with \todo{xyz}
+\usepackage{todo}
+
+% Für Syntax Highlightings
+\usepackage{listings}
+
+\lstset{ %
+language=Octave,                % the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                % will be numbered
+numbersep=4pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={*,...}            % if you want to add more keywords to the set
+}
+
+% for \colorbox
+\usepackage{color}
+% for graphics
+\usepackage{graphicx}
+
+
+% Big Tables across Pages
+\usepackage{longtable}
+
+\begin{document}
+% titelseite
+\begin{titlepage}
+% \begin{center}
+%  \includegraphics[width=0.3\textwidth]{graphics/zhaw_title_logo.png} \\[1cm]
+%
+%  Bachelorarbeit \\ {\large \batitle} \\[1cm]
+%
+%  \includegraphics[width=0.4\textwidth]{graphics/infrasupport_logo.jpg}
+%  \includegraphics[width=0.1\textwidth]{graphics/suw_logo.jpg}
+% \end{center}
+
+% standard titelseite:
+\title{VSY Konzept \\ \batitle}
+\author{\authors}
+\date{24. April 2011}
+\maketitle
+\end{titlepage}
+
+\pagenumbering{roman} 
+%\input{0_zusammenfassung} \newpage
+% Inhaltsverzeichnis
+\renewcommand*\contentsname{Inhaltsverzeichnis}
+\tableofcontents \newpage
+
+\pagenumbering{arabic}
+% content:
+\input{1_Aufgabenstellung} \newpage
+\input{2_Spielbeschreibung}  \newpage
+\input{3_Problemanalyse} \newpage
+\input{4_Loesungsansatz} \newpage
+\input{5_Spielalgorithmus} \newpage
+\input{6_Datenstrukturen} \newpage
+\input{7_Schnittstellen} \newpage
+\input{8_ErwartetesErgebnis} \newpage
+
+
+% Appendices
+
+%\appendix
+
+%\section{Quellenverzeichnis}
+% TODO: BiBTex??
+%\bibliographystyle{unsrt}
+%\bibliography{quellenverzeichnis}
+
+\todos
+
+\end{document}
