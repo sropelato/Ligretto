@@ -2,6 +2,28 @@
 
 -	Aufgabenstellung <!-- mehr oder weniger Copy-Paste aus OLAT -->
 -	Kurze Spielbeschreibung
+Ligretto ist ein Spiel bei dem es darum geht seinen eigenen Ligretto Stapel los zu werden bevor dies ein Gegner schafft. Der Ligretto Stapel besteht aus 10 verdeckten zufälligen Karten aus dem Kartenvorrat des Spielers. Der Kartenvorrat eines Spielers, auch Deck genannt, besteht aus 40 Karten. Die Karten sind von 1 bis 10 nummeriert und haben 4 Farben: Rot, Gelb, Blau und Grün. Es gibt keine doppelten Karten, das heisst jede Karte kommt nur genau einmal vor im Deck des Spielers.
+
+Um ein neues Spiel vorzubereiten mischt jeder Spieler seinen Kartenstapel. Jeder Spieler zählt dann 10 Karten ab und legt diese verdeckt vor sich hin. Dies ist sein eigener Ligretto Stapel. Danach legt er 4 Karten von seinen restlichen Handkarten offen neben den Ligretto Stapel. Sobald alle Spieler soweit sind geht es los.
+
+Der Spielablauf funktioniert nun wie folgt für jeden Spieler:
+1. Der Spieler schaut die offen vor sich liegenden Karten an.
+2. Dann prüft der Spieler die Stapel an Karten in der mitte des Spielfelds. 
+3. Der Spieler versucht nun eine Karte zu finden, die eins höher ist als die oberste Karte eines Stapels und die selbe Farbe besitzt. Ist dies der Fall, so darf er seine Karte nehmen und oben auf diesen Stapel legen.
+4. Wenn diese gelegte Karte eine der 4 offen vor sich liegenden Karten gewesen ist, dann darf der Spieler die oberste Karte vom Ligretto Stapel aufdecken und anstelle der soeben gelegten Karte vor sich hin legen.
+5. Wenn eine 1er Karte verfügbar ist, darf damit ein neuer Stapel in der Mite des Spielfelds eröffnet werden.
+6. Wenn mit den offenen Karten keine Aktionen durchgeführt werden können, dann darf der Spieler von seinen restlichen Handkarten 3 Karten verdeckt abzählen und diese umdrehen und vor sich auf den Ablagestapel legen. Existiert noch kein Ablagestapel so legt er die 3 Karten einfach neben seine bereits vor sich liegenden Karten und eröffnet somit seinen Ablagestapel. Beim Ablagestapel darf nun jeweils die oberste Karte ebenfalls gespielt werden.
+7. Sollte weiterhin keine Karte gelegt werden können, so wiederholt der Spieler Punkt 6 und legt immer 3 Karten oben auf den Ablagestapel, bis er keine Handkarten mehr in der Hand hält. Ist dies der Fall, so nimmt der Spieler den Ablagestapel wieder als Handkarten auf und fängt von vorne an.
+
+Sobald ein Spieler die letzte Karte seines Ligretto Stapels aufgedeckt hat, ruft er Ligretto Stop und das Spiel wird beendet und es wird abgerechnet.
+
+Bei der Abrechnung bekommt jeder Spieler Punkte für sich selber. Die Abrechnung läuft wiefolgt ab:
+
+1. Jeder Spieler zählt seine noch vorhandenen Ligretto Stapel Karten. Für jede Karte auf dem Ligretto Stapel bekommt er zwei Minuspunkte.
+2. Die Karten auf dem Spielfeld werden nun wieder nach Farbe auf der Rückseite sortiert. Jeder Spieler erhält seine Karten zurück und zählt diese. Für jede gelegte Karte bekommt der Spieler einen Pluspunkt.
+3. Die Punkte werden nun notiert und dann fängt die nächste Runde an.
+
+
 -	Problemanalyse <!-- wo liegen die Probleme oder Schwierigkeiten in einer Ligrettosimulation mit verteilten Systemen? -->
 		-	Concurrency-Problem
 -	Lösungsansatz
@@ -10,6 +32,19 @@
 	-	Strategie
 	-	KI
 	-	Ablaufdiagramm
+		<!--
+			1. dä Server verwaltet diä KartenStapel wo i dä mitti vom spielfeld sind
+			2. dä Server hät am afang pro spieler 40 karten wo vorsortiert sind diä muäs är irgendwiä äm jewiligä spieler übergä
+			3. sobald diä karte übergä sind übernimmt dä client d kontrolle über diä chartene
+			4. dä client baut sin ligretto stapel, + sini 4 offne charte und seit dänn am Server, dass er Ready isch
+			5. dä server wartet bis alli Ready sind und macht dänn äs Startsignal
+			6. jede client fangt jetzt a regelmässig dä zuästand vo dä Stapel i dä Mitti abzfragä und versuächt sini chartene z spiele.
+			7. Wenn er ä möglichkeit gseet versuächt er ä charte am Server z übergä für än gwüssä Stapel. Er wartet bis dä Server meldet ob das klappt hät oder nöd
+			8. Sobald das klappt hät macht er wiiter, wänns nöd klappt hät chunt er vom Server sini Charte zrugg über und muäs si wieder detä härä legä wo si gsi isch.
+			nachdem ein spieler sin ligretto stapel fertig hät macht er irgend äs Ligretto Stop signal. dä Server leitet das wiiter a alli spieler und returnt no alli charte wo erst nach däm ligretto stop signal acho sind.
+			jede spieler zellt jetzt sin ligretto stapel und meldet diä zahl an Server
+			dä Server sortiert alli karte, zellt si und verrechnet jetzt diä pünkt.
+		-->
 -	Datenstrukturen
 	-	Klassendiagramm <!-- falls RMI -->
 	-	Header- / C-Files <!-- falls RPC -->
