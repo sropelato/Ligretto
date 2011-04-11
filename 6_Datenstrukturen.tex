@@ -1,19 +1,70 @@
 \section{Datenstrukturen} 
+\color{red}
+\textbf{bitte nochmal genau anschauen. Ist erst ein erster Entwurf.}
+\color{black}
+
+% Bewertungsmassstab:
+%  - Sind die Daten vollständig beschrieben, d.h. Anzahl und Wertebereich angegeben (3 Punkte)?
+%    - Es sind alle Klassen/Structs anzugeben bis zur den von der Sprache unterstützten Datentypen. 
+%      In RPC also int, string etc., in RMI List, Hash, Map etc.
 
 \subsection{Klassendiagramm}
 
-%\todo{Datenstrukturen Ausformulieren Klassen Diagram Zeichnen usw}
+\color{red}
+\textbf{Noch zu erledigen}
+\color{black}
 
-Karten
+\subsection{Generell}
 
-Handkarten
+Diese Datenstrukturen werden überall verwendet. Player, Server und von externer Quelle
 
-Kartenstapel
+\subsubsection{Karte}
 
-Collection aller Kartenstapel
+Die Karte hat als Instanz-Variablen eine Farbe, eine Zahl von 1 bis 10 und einen Besitzer vom Typ Player.
 
-Start Signal
+\lstinputlisting[language=Java]{listings/Karte.java}
 
-End Signal
+\subsection{Server}
 
-Abrechnungs Daten
+\subsubsection{Karten Sets}
+
+Die Kartensets werden vor dem Spiel bereits fertig definiert übergeben.\\[3mm]
+Die Karten Sets werden in Form einer Datenstruktur vom Typ \textit{Stack$<$Stack$<$Karte$>>$} gespeichert.
+
+\subsubsection{Player Sitzordnung}
+
+Die Player Sitzordnung wird Kreisförmig angeordnet. Die Players bilden einen grossen Kreis, womit jeder Player Nachbarn hat. \\[3mm]
+Die Player Sitzordnung wird mittels einer LinkedList$<$Player$>$ gespeichert.
+
+\subsection{Player}
+
+\subsubsection{Handkarten}
+
+Die Hand Karten sind eine List vom Typ Karte mit exakt 40 Karten. Diese erhält der Player vom Server. Der Spieler zieht zu beginn 10 Karten ab und baut damit seinen Ligretto Stapel, dann zieht er 4 Karten ab und legt diese Karten als offene Karte nvor sich aus.\\[3mm]
+Der Datentyp für die Handkarten ist eine \textit{ArrayList$<$Karte$>$}.
+
+\subsubsection{Stapel}
+
+Die Karten Stapel sind die offen in der Mitte des Spielfelds liegenden Kartenstapel auf denen Karten abgelegt werden können. Jeder Spieler kann mit einer 1er-Karte einen neuen Stapel bei sich eröffnen. Alle andern Spieler können diese Stapel abfragen und ebenfalls Karten oben drauf legen, falls sie passende Karten haben.\\[3mm]
+Stapel sind vom Supertyp \textit{Stack$<$Karte$>$} und implementiert das \textit{Stapel} RMI Interface.
+
+\subsubsection{Ligretto Stapel}
+
+Jeder Player verwaltet für sich selber seinen Ligretto Stapel. Er weiss selber nicht direkt was für Karten sich darin befinden und kann nur die oberste davon aufdecken und offen vor sich hin legen.\\[3mm]
+Der Ligretto Stapel ist vom Supertyp \textit{Stack$<$Karte$>$}.
+
+\subsubsection{Offene Karten}
+
+Jeder Spieler hat genau 4 offene Karten vor sich liegen. Diese können von andern angesehen werden. Die KI kann diese Karten direkt spielen. Wenn eine der 4 Karten gespielt wird, wird sie ersetzt durch eine neue Karte vom Ligretto Stapel.\\[3mm]
+Die offenen Karten sind ein \textit{Karte[4]} Array.
+
+\subsubsection{Ablage Stapel}
+
+Der Ablagestapel ist ein Stack von Karten, bei dem immer 3 Karten oben drauf gelegt werden dürfen aus den Handkarten und von dem immer die oberste Karte gespielt werden darf durch die KI. Jeder fremde Spieler kann diese Karte anschauen. Sobald die Handkarten leer sind und der Ablagestapel voll, wird der Ablagestapel wieder invertiert (in der Reihenfolge umgedreht) und erneut als Handkarten benutzt.\\[3mm]
+Der Ablage Stapel ist vom Supertyp \textit{Stack$<$Karte$>$}.
+
+\subsubsection{Nachbarn}
+
+Die Nachbarn des Players werden dem Player einmal zu Spielbeginn mitgeteilt vom Server.\\[3mm]
+Die Nachbarn werden in einer Datenstruktur vom Typ \textit{ArrayList$<$Player$>$} gespeichert.
+

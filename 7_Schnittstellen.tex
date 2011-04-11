@@ -1,34 +1,32 @@
-\section{Schnittstellen} 
+\section{Schnittstellen \& Datendefinition} 
+
+\color{red}
+\textbf{bitte nochmal genau anschauen. Ist erst ein erster Entwurf.}
+\color{black}
+
+In diesem Kapitel erklären wir die RMI Schnittstellen und die Datendefinitionen.
 
 \subsection{RMI-Interfaces}
 
-\subsubsection{Client}
-
-
-\lstinputlisting[language=Java]{listings/RemoteClient.java}
-
+Die nun folgenden Interfaces werden benutzt um via RMI mit andern Komponenten zu kommunizieren.
 
 \subsubsection{Server}
 
-\lstinputlisting[language=Java]{listings/RemoteServer.java}
+Der Server ist dafür zuständig, dass sich alle Clients anmelden können. Sobald alle Clients angemeldet sind verteilt der Server die Karten, wartet bis alle Spieler Ready sind und gibt dann das Startsignal. Sobald ein Spieler fertig ist meldet er dem Server ''Ligretto Stop'' und der Server teilt dies dann allen teilnehmenden Playern mit. 
 
-\subsubsection{EventListener}
+Danach erwartet der Server von jedem Player seine Punktezahl und gibt diese als Statistik aus.
 
-\lstinputlisting[language=Java]{listings/EventListener.java}
+\lstinputlisting[language=Java]{listings/Server.java}
 
-\textbf{GameEventListener}
+\subsubsection{Player}
 
-\lstinputlisting[language=Java]{listings/GameEventListener.java}
+Der Player ist der eigentliche Client. Er bekommt einmal vom Server seine Karten und macht sich bereit. Sobald es los geht ruft er von andern Playern die Details ab und bietet selber andern Playern ebenfalls seine Details an.
 
-\subsubsection{Datenstrukturen}
+\lstinputlisting[language=Java]{listings/Player.java}
+
+\subsubsection{Stapel}
+
+Ein Stapel ist ebenfalls ein RMI Interface, weil er weiterhin im Besitz des andern Players bleibt wenn jemand etwas oben drauf legt. Auf einem Stapel kann man die oberste Karte anschauen und falls eine passende Karte vorhanden ist eine Karte oben drauf gelegt werden.
 
 \lstinputlisting[language=Java]{listings/Stapel.java}
-
-\lstinputlisting[language=Java]{listings/Karte.java}
-
-
-% Für die Direkte eingabe des Codes kann man das hier benutzen:
-% \begin{lstlisting}[language=Java]
-% \end{lstlisting}
-
 
