@@ -1,5 +1,6 @@
 
 *.aux
+Thumbs.db
 /LigrettoKonzept.pdf
 /LigrettoKonzept.synctex.gz
 /LigrettoKonzept.toc
@@ -7,3 +8,6 @@
 /LigrettoKonzept.log
 /LigrettoKonzept.tps
 /LigrettoKonzept.tcp
+
+/LigrettoKonzept.blg
+/LigrettoKonzept.bbl
