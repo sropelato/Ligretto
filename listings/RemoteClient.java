@@ -9,6 +9,15 @@ import java.rmi.RemoteException;
  */
 public interface RemoteClient extends Remote {
 	
-	boolean ping() throws RemoteException;
+	
+    void startGame() throws RemoteException; //Ligretto Start Event
+    
+    void setHandKarten() throws RemoteException; //Player bekommt karten
+    
+    PlayerState getPlayerState() throws RemoteException; //Player state kann von andern Clients abgerufen werden.
+    
+    void legeKarte(Karte karte) throws RemoteException, TooSlowException; //Ein Client kann versuchen eine Karte zu legen.
+    
+    void stopGame() throws Remote Exception; //Ligretto Stop Event
 	
 }
