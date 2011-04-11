@@ -10,10 +10,12 @@ import java.util.List;
  */
 public interface RemoteServer extends Remote {
 	
-	EventHandler getGameEventHandler() throws RemoteException;
+	EventHandler getEventHandler() throws RemoteException;
 	
-	List<? extends Karte> getHandkarten() throws RemoteException;
+	List<Karte> getHandKarten() throws RemoteException;
+    
+    void setReady(Player p) throws RemoteException;
 
-	List<? extends Stapel> getStapel() throws RemoteException;
+	List<Stapel<Karte>> getStapel() throws RemoteException;
 	
 }

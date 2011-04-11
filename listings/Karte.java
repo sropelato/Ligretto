@@ -3,10 +3,12 @@ package Ligretto;
 public final class Karte {
 	public final Zahl zahl;
 	public final Farbe farbe;
+    public final Player owner;
 
-	public Karte(Zahl zahl, Farbe farbe) {
+	public Karte(Zahl zahl, Farbe farbe, Player owner ) {
 		this.zahl = zahl;
 		this.farbe = farbe;
+        this.owner = owner;
 	}
 
 	public enum Zahl {
