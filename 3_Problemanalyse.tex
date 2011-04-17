@@ -4,6 +4,7 @@
 
 Als Aufgabe gilt es, den Ablauf, der durch die Spielregeln festgelegt ist, anhand folgender Gesichtspunkte in einen Algorithmus umzusetzen:
 
+
 \begin{enumerate}
 	\item Der Spielablauf muss den Spielregeln entsprechen und die KI-Algorithme, welche die Mitspieler simulieren, sollten nur an Informationen über den Spielablauf gelangen, welche auch ein menschlicher Spieler gelangen würde.
 	\item Der Spielablauf sollte möglichst fair sein. D.h. bis auf den Zufall, der durch das Mischen der Karten ins Spiel gelangt, sollten alle Mitspieler gleichgestellt sein.
@@ -94,3 +95,11 @@ z.B. wird {\tt LigrettoStopp()} aufrerufen.
 
 %was passiert, wenn nachrichten verloren gehen (geht nicht, RMI ist synchron (hähä, wissen wir noch gar nicht ...))
 %was passiert, wenn clients oder der server abstürzen
+
+
+\subsection{Skallierbarkeit}
+
+%Bewertungsmassstab:
+% Bei Ligretto berücksichtigen, dass die Anzahl Spieler steigen kann.
+%    - Ist die Zahl der beteiligten Rechner definiert? Wieviele Rechner sind minimal nötig, wieviele können max. eingesetzt werden?
+%    - Wie steigt die Leistung des Systems mit hinzugefügten Rechnern? (Bis zu 1 Zusatzpunkt für detaillierte Analyse)
