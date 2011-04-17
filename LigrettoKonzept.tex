@@ -27,7 +27,7 @@
 
 
 % define input encoding
-\usepackage{ucs}
+
 \usepackage[utf8x]{inputenc}
 
 
@@ -62,9 +62,6 @@
 % to include a PDF directly into the generated document
 \usepackage{pdfpages}
 
-% Marking entries as Todo with \todo{xyz}
-\usepackage{todo}
-
 % Für Syntax Highlightings
 \usepackage{listings}
 
@@ -88,7 +85,9 @@ breakatwhitespace=false,        % sets if automatic breaks should only happen at
 title=\lstname,                 % show the filename of files included with \lstinputlisting;
                                 % also try caption instead of title
 escapeinside={\%*}{*)},         % if you want to add a comment within your code
-morekeywords={*,...}            % if you want to add more keywords to the set
+morekeywords={*,...},            % if you want to add more keywords to the set
+inputencoding=utf8x,			% For extended Unicode Mode
+extendedchars=\true				% For German Chars äöü
 }
 
 % for \colorbox
@@ -145,7 +144,5 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 % TODO: BiBTex??
 %\bibliographystyle{unsrt}
 %\bibliography{quellenverzeichnis}
-
-\todos
 
 \end{document}
