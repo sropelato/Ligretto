@@ -1,13 +1,100 @@
 \section{Problemanalyse}   %wo liegen die Probleme oder Schwierigkeiten in einer Ligrettosimulation mit verteilten Systemen?
 
-Um das Problem des Ligretto Systems zu verstehen definieren wir in erster Linie mal Assets, die es zu verwalten gilt. In einem zweiten Schritt
+%allgemein, was muss analysiert werden
 
-\color{red}
-\textbf{Erweitern}
-\color{black}
+Als Aufgabe gilt es, den Ablauf, der durch die Spielregeln festgelegt ist, anhand folgender Gesichtspunkte in einen Algorithmus umzusetzen:
+
+
+\begin{enumerate}
+	\item Der Spielablauf muss den Spielregeln entsprechen und die KI-Algorithme, welche die Mitspieler simulieren, sollten nur an Informationen über den Spielablauf gelangen, welche auch ein menschlicher Spieler gelangen würde.
+	\item Der Spielablauf sollte möglichst fair sein. D.h. bis auf den Zufall, der durch das Mischen der Karten ins Spiel gelangt, sollten alle Mitspieler gleichgestellt sein.
+	\item Die verwendeten Algorithmen und Schnittstellen sollten möglichst gut mit der Anzahl Mitspieler skalieren, unter Betrachtung der benötignen Rechenzeit und Netzerkkapazität.
+\end{enumerate}
+
+Folgende Punkte werden bei der Herleitung des Algorithmus nicht betrachtet:
+
+\begin{enumerate}
+	\item Alle Mitspieler müssen sich an die Spielregeln halten, insbesonder in Teilen des Ablaufs, die im Spiel mit menschlichen Spielern nicht überwacht werden können. Dazu gehör z.B. das regelkonforme Ablegen der Handkarten beim suchen einer passenden Karte.
+	\item Die beiligten Server versenden nur Nachrichten an Server, mit denen sie laut dem Alogrithmus kommunizieren dürfen.
+	\item Die eingesetzte Software und Hardware darf keine Fehler aufweisen und der Netzerkverkehr darf nicht gestört oder unterbrochen werden. D.h. z.B. keine Pakete dürfen verloren gehen.
+\end{enumerate}
+
+%Für die letzten beiden Punkte wird anschliessend eine Diskusion gegeben, inwiefern der Alogorithmus und die Schnittstellen angepasst werden müssten, um ...
+
+\subsection{Systemgrenzen}
+
+%welche teile des algorithmus laufen wo
+
+Damit die Laufzeit eines Spiels nicht, oder nur schwach, mit der Anzahl Spieler wächst, muss die Anzahl verwendeter Server linear mit der Anzahl Mitspieler wachsen können. Deshalb ist es notwendig und sinnvoll für jeden Mitspieler mindestens einen, separaten Prozess zu Verwenden.
+
+Da ein einzelner Spieler jedoch zu jeder Zeit immer nur eine Aktion ausführen darf (siehe Spielregeln), ist eine Aufteilung eines einzelenen Spielers in mehrere Prozesse nicht sinnvoll.
+
+Zur Überwachung des gesammten Spiels, sowie dessen Aufbau und Abbau, wird ein separater Prozess verwendet. Da der Überwachende Prozess nur vor Spielbeginn und nach Beendigung des Spiels eine Aufgabe hat, dessen Komplexität mit der Anzahl mitspieler wächst, ist eine Aufteilung deiser Aufgaben in mehrere Prozesse zwar erwägenswert, aber nicht von oberster Priorität.
+
+% TODO: Nomenklatur für den Überwachende Prozess und Mitspieler-Prozesse
+
+Zusammengefasst:
+
+\begin{enumerate}
+	\item Ein Prozess zur Überwachung des Spiels (Aufbau und Abbau).
+	\item Ein Prozess pro Mitspieler, welche alle Aktionen des jeweiligen Mitspielers durchführt.
+\end{enumerate}
+
+\subsection{Verteilung}
+
+%welcher state ist wo
+
+Bei der Betrachtung der Verteilung des Zustandes gibt es drei Arten von Objekten:
+
+\begin{enumerate}
+	\item {\bf Zustands-Objekte} verkörpern den veränderlichen Zustand eines Spiels. Die Eigenschaften dieser Objekte sind somit mutierbar. Für diese Objekte ist immer genau ein Prozess zuständig und diese Objekte werden auf andere Prozesse verschoben oder kopiert.
+	\item {\bf Token-Objekte} werden zur Kommunikation verwendet und sind nicht weränderbar. Token-Objekte können zwischen den Prozessen verschoben werden, jedoch ist immer nur genau ein Prozess für ein jeweiliges Token-Objekt verantwortlich.
+	\item {\bf Transiente Objekte} werden zu Kommunikations-Zwecken und zur unterstützung der Algorithmen erstellt und aufbewahrt. Wenn ein transientes Objekt an einen anderen Prozess versendet wird, dann besitzen beide Prozess eine eigene Kopie des Objektes.
+\end{enumerate}
+
+Die folgenden Token-Objekte können identifiziert werden:
+\begin{enumerate}
+	\item Spielkaren: Zu beginn des Spieles wird für jede Spielkarte, welche in einen realen Ligretto-Spiel verwerdet würde, ein Spielkarten-Objekt erstellt.
+\end{enumerate}
+
+Folgende Zustands-Obekte können identifiziert werden:
+\begin{enumerate}
+	\item Handkarten-Stapel
+	\item Ausgelegte Karten vor dem Mitspieler
+	\item Stapel auf dem Spieltisch
+	\item Mitspieler
+	\item Überwachender Prozess
+\end{enumerate}
+
+Zur Kommunikation werden folgende Transiente Objekte erstellt:
+\begin{enumerate}
+	\item Start- und Stop-Signale.
+	\item Stapel mit gemischten Karten, welche vom Überwachenden Prozess and die Mitspieler verteilt werden.
+	\item ...
+\end{enumerate}
+
+\subsection{Kommunikation}
+
+%für was wird wie kommuniziert
+
+z.B. wird {\tt LigrettoStopp()} aufrerufen.
+
+
+
+
+%Um das Problem des Ligretto Systems zu verstehen definieren wir in erster Linie mal Assets, die es zu verwalten gilt. In einem zweiten Schrit 
+
+
 
 
 \subsection{Concurrency-Problem}
+
+%was gibt es für deadlocks, 
+
+\subsection{Zuverlässigkeit}
+
+%was passiert, wenn nachrichten verloren gehen (geht nicht, RMI ist synchron (hähä, wissen wir noch gar nicht ...))
+%was passiert, wenn clients oder der server abstürzen
 
 
 \subsection{Skallierbarkeit}
