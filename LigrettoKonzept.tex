@@ -24,13 +24,8 @@
 \documentclass[a4paper,oneside,notitlepage]{scrartcl}
 \pdfcompresslevel=9
 
-
-
 % define input encoding
-
 \usepackage[utf8x]{inputenc}
-
-
 
 %German Language
 \usepackage[ngerman]{babel}
@@ -59,42 +54,52 @@
 	%   pdfkeywords=pdfkeywords
 }
 
+
 % to include a PDF directly into the generated document
 \usepackage{pdfpages}
 
+
 % Für Syntax Highlightings
 \usepackage{listings}
-
-\lstset{ %
-language=Octave,                % the language of the code
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-numbers=left,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
-                                % will be numbered
-numbersep=4pt,                  % how far the line-numbers are from the code
-backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,                   % adds a frame around the code
-tabsize=2,                      % sets default tabsize to 2 spaces
-captionpos=b,                   % sets the caption-position to bottom
-breaklines=true,                % sets automatic line breaking
-breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-title=\lstname,                 % show the filename of files included with \lstinputlisting;
-                                % also try caption instead of title
-escapeinside={\%*}{*)},         % if you want to add a comment within your code
-morekeywords={*,...},            % if you want to add more keywords to the set
-inputencoding=utf8x,			% For extended Unicode Mode
-extendedchars=\true				% For German Chars äöü
+\lstset{
+	literate =
+	{Ä}{{\"A}}1
+	{Ö}{{\"O}}1
+	{Ü}{{\"U}}1
+	{ä}{{\"a}}1
+	{ö}{{\"o}}1
+	{ü}{{\"u}}1,
+	language=Java,						% the language of the code
+	basicstyle=\small,					% the size of the fonts that are used for the code
+	numbers=none,						% where to put the line-numbers
+	backgroundcolor=\color{blue-gray},	% choose the background color. You must add \usepackage{color}
+	frame=shadowbox,					% adds a frame around the code
+	xleftmargin=8pt,
+	framexleftmargin=5pt,
+	xrightmargin=8pt,
+	framexrightmargin=8pt,
+	framextopmargin=5pt,
+	framexbottommargin=5pt,
+	tabsize=4,							% sets default tabsize to 4 spaces
+	captionpos=b,						% sets the caption-position to bottom
+	breaklines=true,					% sets automatic line breaking
+	breakatwhitespace=true,
+	breakautoindent=true,
+	title=\lstname,						% show the filename of files included with \lstinputlisting; also try caption instead of title
+	inputencoding=utf8x,				% For extended Unicode Mode
+	extendedchars=\true					% For German Chars äöü
 }
+
 
 % for \colorbox
 \usepackage{color}
+
 % for graphics
 \usepackage{graphicx}
 
+% self-defined colors
+\definecolor{light-gray}{rgb}{0.9, 0.9, 0.9}
+\definecolor{blue-gray}{rgb}{0.87, 0.89, 0.92}
 
 % Big Tables across Pages
 \usepackage{longtable}
@@ -132,9 +137,7 @@ extendedchars=\true				% For German Chars äöü
 \input{4_Loesungsansatz} \newpage
 \input{5_Spielalgorithmus} \newpage
 \input{6_Datenstrukturen} \newpage
-\input{7_Schnittstellen} \newpage
-\input{8_ErwartetesErgebnis} \newpage
-
+\input{7_ErwartetesErgebnis} \newpage
 
 % Appendices
 
