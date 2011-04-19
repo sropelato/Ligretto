@@ -1,18 +1,14 @@
 \section{Datenstrukturen und Schnittstellen} 
-\color{red}
-\textbf{bitte nochmal genau anschauen. Ist erst ein erster Entwurf.}
-\color{black}
+
+Folgende Klassen und Interfaces bilden alle Daten und Funktionen ab, die zum Durchführen eines Ligrettospiels notwendig sind.
 
 % Bewertungsmassstab:
 %  - Sind die Daten vollständig beschrieben, d.h. Anzahl und Wertebereich angegeben (3 Punkte)?
 %    - Es sind alle Klassen/Structs anzugeben bis zur den von der Sprache unterstützten Datentypen. 
 %      In RPC also int, string etc., in RMI List, Hash, Map etc.
 
-\newpage
-\subsection{Klassendiagramm}
 
-\begin{figure}[h]
-	\centering
+\begin{figure}[H]
 	\includegraphics[width=1.0\textwidth,angle=0]{graphics/klassendiagramm.pdf}
 	\caption{Klassendiagramm \hfill{} }
 \end{figure}
@@ -20,18 +16,18 @@
 
 \subsection{Karte}
 
-Die Karte hat eine Farbe (Rot, Gelb, Grün oder Blau) und Zahl (zwischen 1 und 10). Sie ist ein serialisierbares Objekt, das zwischen dem Server und verschiedenen Spielern ausgetauscht werden kann.
+Die Karte hat eine {\bf Farbe} (Rot, Gelb, Grün oder Blau) und {\bf Zahl} (zwischen 1 und 10). Sie ist ein serialisierbares Objekt, das zwischen dem Server und verschiedenen Spielern ausgetauscht werden kann.
 
 \lstinputlisting{listings/Karte.java}
 
 
 \subsection{Server}
 
-Das Serverinterface definiert eine Methode ligrettoStop, welche von dem Spieler, der als erster alle Karten seines Ligrettostapels verspielt hat, aufgerufen wird.
+Das Serverinterface definiert eine Methode {\bf ligrettoStop()}, welche von dem Spieler, der als erster alle Karten seines Ligrettostapels verspielt hat, aufgerufen wird.
 
 \lstinputlisting{listings/Server.java}
 
-Die Klasse ServerImplementation besitzt zwei Listen; spieler, worin alle am Spiel teilnehmenden Spieler enthalten sind und decks, welche bereits gemischte Kartenstapel à 40 Karten für die Spieler enthält.
+Die Klasse ServerImplementation besitzt zwei Listen; {\bf spieler}, worin alle am Spiel teilnehmenden Spieler enthalten sind und {\bf decks}, welche bereits gemischte Kartenstapel à 40 Karten für die Spieler enthält.
 
 \lstinputlisting{listings/ServerImplementation.java}
 
