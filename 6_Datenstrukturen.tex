@@ -1,70 +1,46 @@
-\section{Datenstrukturen} 
-\color{red}
-\textbf{bitte nochmal genau anschauen. Ist erst ein erster Entwurf.}
-\color{black}
+\section{Datenstrukturen und Schnittstellen} 
+
+Folgende Klassen und Interfaces bilden alle Daten und Funktionen ab, die zum Durchführen eines Ligrettospiels notwendig sind.
 
 % Bewertungsmassstab:
 %  - Sind die Daten vollständig beschrieben, d.h. Anzahl und Wertebereich angegeben (3 Punkte)?
 %    - Es sind alle Klassen/Structs anzugeben bis zur den von der Sprache unterstützten Datentypen. 
 %      In RPC also int, string etc., in RMI List, Hash, Map etc.
 
-\subsection{Klassendiagramm}
 
-\color{red}
-\textbf{Noch zu erledigen}
-\color{black}
+\begin{figure}[H]
+	\includegraphics[width=1.0\textwidth,angle=0]{graphics/klassendiagramm.pdf}
+	\caption{Klassendiagramm \hfill{} }
+\end{figure}
 
-\subsection{Generell}
 
-Diese Datenstrukturen werden überall verwendet. Player, Server und von externer Quelle
+\subsection{Karte}
 
-\subsubsection{Karte}
+Die Karte hat eine {\bf Farbe} (Rot, Gelb, Grün oder Blau) und eine {\bf Zahl} (zwischen eins und zehn). Sie ist ein serialisierbares Objekt, das zwischen dem Server und verschiedenen Spielern ausgetauscht werden kann.
 
-Die Karte hat als Instanz-Variablen eine Farbe, eine Zahl von 1 bis 10 und einen Besitzer vom Typ Player.
+\lstinputlisting{listings/Karte.java}
 
-\lstinputlisting[language=Java]{listings/Karte.java}
 
 \subsection{Server}
 
-\subsubsection{Karten Sets}
+Das Serverinterface definiert eine Methode {\bf ligrettoStop()}, welche von dem Spieler, der als erster alle Karten seines Ligrettostapels verspielt hat, aufgerufen wird.
 
-Die Kartensets werden vor dem Spiel bereits fertig definiert übergeben.\\[3mm]
-Die Karten Sets werden in Form einer Datenstruktur vom Typ \textit{Stack$<$Stack$<$Karte$>>$} gespeichert.
+\lstinputlisting{listings/Server.java}
 
-\subsubsection{Player Sitzordnung}
+Die Klasse ServerImplementation besitzt zwei Listen; {\bf spieler}, worin alle am Spiel teilnehmenden Spieler enthalten sind und {\bf decks}, welche bereits gemischte Kartenstapel à 40 Karten für die Spieler enthält.
 
-Die Player Sitzordnung wird Kreisförmig angeordnet. Die Players bilden einen grossen Kreis, womit jeder Player Nachbarn hat. \\[3mm]
-Die Player Sitzordnung wird mittels einer LinkedList$<$Player$>$ gespeichert.
+\lstinputlisting{listings/ServerImplementation.java}
 
-\subsection{Player}
 
-\subsubsection{Handkarten}
+\subsection{Spieler}
 
-Die Hand Karten sind eine List vom Typ Karte mit exakt 40 Karten. Diese erhält der Player vom Server. Der Spieler zieht zu beginn 10 Karten ab und baut damit seinen Ligretto Stapel, dann zieht er 4 Karten ab und legt diese Karten als offene Karte nvor sich aus.\\[3mm]
-Der Datentyp für die Handkarten ist eine \textit{ArrayList$<$Karte$>$}.
+Ein Spieler kennt vier Methoden. Mit dem Aufruf von {\bf init()} erhält er alle Informationen, die er zum Spiel kennen muss. Wer ist der Server? Wer sind meine Nachbarn? Was sind meine Karten? Dabei werden die 40 Karten gemäss den Spielregeln auf Ligretto-, Spiel- und Handkartenstapel sowie auf die vier Slots aufgeteilt. Das Spiel wird mit {\bf spielStarten()} begonnen. Ab diesem Aufruf spielt der Spieler bis er oder ein Gegner das Spiel beendet. Die Methode {\bf legeKarte()} kann vom Spieler selbst oder von einem seiner Nachbarn aufgerufen werden. Dabei wird eine Karte übergeben und, wenn sie auf einen der Spielstapel passt, niedergelegt. Im Erfolgsfall wird dabei true zurückgegeben, ansonsten false. Ein Aufruf von {\bf spielBeenden()} beendet das Spiel. Zuletzt wird {\bf getPunkte()} vom Server aufgerufen um den Sieger der aktuellen Spielrunde zu ermitteln.
 
-\subsubsection{Stapel}
+\lstinputlisting{listings/Spieler.java}
 
-Die Karten Stapel sind die offen in der Mitte des Spielfelds liegenden Kartenstapel auf denen Karten abgelegt werden können. Jeder Spieler kann mit einer 1er-Karte einen neuen Stapel bei sich eröffnen. Alle andern Spieler können diese Stapel abfragen und ebenfalls Karten oben drauf legen, falls sie passende Karten haben.\\[3mm]
-Stapel sind vom Supertyp \textit{Stack$<$Karte$>$} und implementiert das \textit{Stapel} RMI Interface.
+SpielerImplementation implementiert das eben beschriebene Spielerinterface. Dabei werden folgende Attribute definiert: {\bf server} - die Serverinstanz, die das Spiel kontrolliert. {\bf nachbarn} - eine Liste aller Nachbarn. {\bf ligrettoStapel} - ein Stapel mit anfänglich zehn Karten, die möglichst rasch verspielt werden müssen. {\bf spielStapel} - Die (maximal vier) Stapel, auf die alle Spieler ihre Karten legen können. {\bf handKarten} - der Stapel mit den Karten, die der Spieler in der Hand hält. {\bf slots} - die vier offen liegenden Karten, die neben dem Ligrettostapel platziert werden.
 
-\subsubsection{Ligretto Stapel}
+\lstinputlisting{listings/SpielerImplementation.java}
 
-Jeder Player verwaltet für sich selber seinen Ligretto Stapel. Er weiss selber nicht direkt was für Karten sich darin befinden und kann nur die oberste davon aufdecken und offen vor sich hin legen.\\[3mm]
-Der Ligretto Stapel ist vom Supertyp \textit{Stack$<$Karte$>$}.
 
-\subsubsection{Offene Karten}
-
-Jeder Spieler hat genau 4 offene Karten vor sich liegen. Diese können von andern angesehen werden. Die KI kann diese Karten direkt spielen. Wenn eine der 4 Karten gespielt wird, wird sie ersetzt durch eine neue Karte vom Ligretto Stapel.\\[3mm]
-Die offenen Karten sind ein \textit{Karte[4]} Array.
-
-\subsubsection{Ablage Stapel}
-
-Der Ablagestapel ist ein Stack von Karten, bei dem immer 3 Karten oben drauf gelegt werden dürfen aus den Handkarten und von dem immer die oberste Karte gespielt werden darf durch die KI. Jeder fremde Spieler kann diese Karte anschauen. Sobald die Handkarten leer sind und der Ablagestapel voll, wird der Ablagestapel wieder invertiert (in der Reihenfolge umgedreht) und erneut als Handkarten benutzt.\\[3mm]
-Der Ablage Stapel ist vom Supertyp \textit{Stack$<$Karte$>$}.
-
-\subsubsection{Nachbarn}
-
-Die Nachbarn des Players werden dem Player einmal zu Spielbeginn mitgeteilt vom Server.\\[3mm]
-Die Nachbarn werden in einer Datenstruktur vom Typ \textit{ArrayList$<$Player$>$} gespeichert.
 
