@@ -108,7 +108,7 @@ Nach Spielende, ruft der Server von allen Spielern den Punktestand ab. Dies gesc
 Es kommt vor, dass zwei Spieler gleichzeitig versuchen die selbe Karte auf den selben Stapel zu legen. Wie im echten Spiel gilt auch in der Spielsimlulation: "First come first served". Dabei werden alle RMI-Methoden mit dem \textbf{synchronized}-Schlüsselwort synchronisiert.
 
 \subsubsection{Spielstop währenddem eine Karte gelegt wird}
-Wird das Spiel während einem Versuch, eine Karte auf den Stapel zu legen beendet, darf die Karte gemäss Spielregeln nicht mehr gelegt werden. Dies kann erreicht werden, indem man die Erfolgsmeldung mit dem Spielstatus verknüpft. Ist das Spiel beim Aufruf der legeKarte-Methode beendet, wird in jedem Fall false zurückgegeben.
+Wird das Spiel während einem Versuch, eine Karte auf den Stapel zu legen beendet, darf die Karte gemäss Spielregeln nicht mehr gelegt werden. Dies kann erreicht werden, indem man die Erfolgsmeldung mit dem Spielstatus verknüpft. Ist das Spiel beim Aufruf der legeKarte-Methode beendet, wird in jedem Fall false zurückgegeben, beziehungsweise der legende Spieler interpretiert es als false.
 
 \subsection{Zuverlässigkeit}
 
@@ -123,7 +123,7 @@ Da der Server für die Übermittlung der Ligretto-Stop-Nachricht verantwortlich 
 
 \subsection{Skallierbarkeit}
 
-Gemäss Spielregeln braucht es mindestens zwei Spieler für ein Ligrettospiel. Gegen oben existieren keine Grenzen. Dadurch dass nur eine Kommunikation mit einer konstanten Anzahl Nachbarn erfolgt, bleibt die Netzwerkauslastung und der Rechenaufwand pro Spieler auch bei steigender Anzahl Gegner konstant. Je nach Implementation können Nachrichten, welche an alle Spieler gehen (spielStart und spielEnde) durch Grenzen der Netzwerkgeschwindigkeit etwas verspätet eintreffen.
+Gemäss Spielregeln braucht es mindestens zwei Spieler für ein Ligrettospiel. Mit nur zwei Spielern ist die Chance jedoch hoch, dass das Spiel nicht zuende gespielt werden kann, da die Karten ungünstig liegen und damit ein Deadlock entsteht. Gegen oben existieren keine Grenzen. Dadurch dass nur eine Kommunikation mit einer konstanten Anzahl Nachbarn erfolgt, bleibt die Netzwerkauslastung und der Rechenaufwand pro Spieler auch bei steigender Anzahl Gegner konstant. Je nach Implementation können Nachrichten, welche an alle Spieler gehen (spielStart und spielEnde) durch Grenzen der Netzwerkgeschwindigkeit etwas verspätet eintreffen.
 
 %Bewertungsmassstab:
 % Bei Ligretto berücksichtigen, dass die Anzahl Spieler steigen kann.
