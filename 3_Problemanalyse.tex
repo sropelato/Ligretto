@@ -68,12 +68,24 @@ Folgende Zustands-Obekte können identifiziert werden:
 
 Zur Kommunikation werden folgende Transiente Objekte erstellt:
 \begin{enumerate}
-	\item Start- und Stop-Signale.
+	\item Start- und Stop-Signale des überwachenden Prozesses.
+	\item Stop-Signal eines Mitspielers.
 	\item Stapel mit gemischten Karten, welche vom Überwachenden Prozess and die Mitspieler verteilt werden.
 	\item ...
 \end{enumerate}
 
 \subsection{Kommunikation}
+
+Bei der definition der Kommunikation muss gleichzeitig die Korrektheit und die Performance beachtet werden.
+
+Der Ablauf lässt sich in folgende Abschnitte unterteilen:
+\begin{enumerate}
+	\item Während dem {\bf Aufbau} werden die Spielkarten durch den Server vorbereitet und and die regisrierten Clients verteilt.
+	\item Stop-Signal eines Mitspielers.
+	\item Stapel mit gemischten Karten, welche vom Überwachenden Prozess and die Mitspieler verteilt werden.
+	\item ...
+\end{enumerate}
+
 
 %für was wird wie kommuniziert
 
