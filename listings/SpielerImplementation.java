@@ -13,9 +13,9 @@ public class SpielerImplementation implements Spieler {
 	private Karte[] slots;
 	
 	// Methodenimplementation
-	public void init(Server server, List<Spieler> nachbarn, List<Karte> karten) throws RemoteException { ... }
-	public void spielStarten() throws RemoteException { ... }
-	public boolean legeKarte(Karte karte) throws RemoteException { ... }	
-	public void spielBeenden() throws Remote Exception { ... }
-	public byte getPunkte() throws RemoteException { ... }
+	public static void init(Server server, List<Spieler> nachbarn, List<Karte> karten) throws RemoteException { ...	}
+	public static void spielStarten() throws RemoteException { ... }
+	public static boolean legeKarte(Karte karte) throws RemoteException { ... }
+	public static void spielBeenden() throws Remote Exception { ... }
+	public static byte getPunkte() throws RemoteException { ... }
 }

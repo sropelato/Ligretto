@@ -21,8 +21,10 @@
 % Input user files with LaTex text sections
 % -----------------------------------------------------------------------------
 
-\documentclass[a4paper,oneside,notitlepage]{scrartcl}
+\documentclass[a4paper,oneside]{scrartcl}
 \pdfcompresslevel=9
+
+\usepackage{geometry}
 
 % define input encoding
 \usepackage[utf8x]{inputenc}
@@ -38,12 +40,12 @@
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true, 
-	linkcolor=blue,
-	citecolor=blue,
-	filecolor=blue,
+	linkcolor=dark-blue,
+	citecolor=dark-blue,
+	filecolor=dark-blue,
 	menucolor=black,
 	%   pagecolor=black,
-	urlcolor=blue,
+	urlcolor=dark-blue,
 	breaklinks=true,
 	pdfnewwindow=true,
 	pdfauthor=\authors,
@@ -58,6 +60,9 @@
 % to include a PDF directly into the generated document
 \usepackage{pdfpages}
 
+% to enable the H argument when placing graphics in the document
+\usepackage{float}
+
 
 % Für Syntax Highlightings
 \usepackage{listings}
@@ -71,6 +76,7 @@
 	{ü}{{\"u}}1,
 	language=Java,						% the language of the code
 	basicstyle=\small,					% the size of the fonts that are used for the code
+	commentstyle=\color{dark-blue-gray}\it,
 	numbers=none,						% where to put the line-numbers
 	backgroundcolor=\color{blue-gray},	% choose the background color. You must add \usepackage{color}
 	frame=shadowbox,					% adds a frame around the code
@@ -90,21 +96,23 @@
 	extendedchars=\true					% For German Chars äöü
 }
 
+% for graphics
+\usepackage{graphicx}
 
 % for \colorbox
 \usepackage{color}
 
-% for graphics
-\usepackage{graphicx}
-
 % self-defined colors
 \definecolor{light-gray}{rgb}{0.9, 0.9, 0.9}
 \definecolor{blue-gray}{rgb}{0.87, 0.89, 0.92}
+\definecolor{dark-blue-gray}{rgb}{0.43, 0.44, 0.46}
+\definecolor{dark-blue}{rgb}{0.2, 0.2, 0.7}
 
 % Big Tables across Pages
 \usepackage{longtable}
 
 \begin{document}
+
 % titelseite
 \begin{titlepage}
 % \begin{center}
@@ -121,6 +129,7 @@
 \author{\authors}
 \date{24. April 2011}
 \maketitle
+\thispagestyle{empty}
 \end{titlepage}
 
 \pagenumbering{roman} 

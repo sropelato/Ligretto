@@ -89,27 +89,53 @@ Der Ablauf lässt sich in folgende Abschnitte unterteilen:
 
 %für was wird wie kommuniziert
 
-z.B. wird {\tt LigrettoStopp()} aufrerufen.
+\subsubsection{Vor Spielbeginn}
 
+Ausgangslage bei Spielbeginn ist folgende:
+\begin{itemize}
+\item Der Server kennt alle Spieler, die an dieser Spielrunde teilnehmen.
+\item Dem Server stehen eine entsprechende Anzahl gut gemischter Kartendecks zur Verfügung.
+\item Kommunikationsgrundlagen (Netzwerk, RMIRegistry, etc...) sind gegeben.
+\end{itemize}
 
+\subsubsection{Spielinitialisierung}
+Zuerst initialisiert der Server alle ihm bekannten Spieler, indem er über RMI deren init-Methode aufruft. Dabei werden sämtliche Informationen, die ein Spieler kenne muss, übermittelt. (Referenz zum Server und zu den Mitspielern, die gemischten Karten)
 
+\subsubsection{Spielstart}
+Nach der Initialisierung werden alle Spieler über den Spielstart informiert. Dies geschieht über den Remoteaufruf der Methode spielStart.
 
-%Um das Problem des Ligretto Systems zu verstehen definieren wir in erster Linie mal Assets, die es zu verwalten gilt. In einem zweiten Schrit 
+\subsubsection{Während des Spiels}
+Sobald ein Spieler über den Spielstart informiert wurde, versucht er der Reihe nach die Karten aus seinen Spielslots oder jene aus seinem Handstapel auf einen eigenen oder den Stapel eines Nachbarn zu legen. Für einen Versuch auf dem eigenen Stapel ist kein Remoteaufruf nötig. Um die Karte bei einem Nachbarn zu platzieren, wird diesem die Karte mittels Aufruf der Methode legeKarte übergeben. Hat die Karte auf einem Stapel platzgefunden, so bestätigt das der Empfänger der Karte mit true, ansonsten gibt er false zurück und die Karte geht wieder zurück in den Slot bzw. in den Handkartenstapel.
 
+\subsubsection{Ligretto Stop!}
+Ist der Ligrettostapel eines Spielers leer, so ruft er die ligrettoStop-Methode des Servers auf. Dieser übermittelt diese Botschaft allen Spielern, indem er deren spielEnde-Methode aufruft.
 
+\subsubsection{Punkte zählen}
+Nach Spielende, ruft der Server von allen Spielern den Punktestand ab. Dies geschieht über dem RMI-Aufruf der Methode getPunkte.
 
 
 \subsection{Concurrency-Problem}
 
-%was gibt es für deadlocks, 
+\subsubsection{Gleichzeitiges Legen einer Karte}
+Es kommt vor, dass zwei Spieler gleichzeitig versuchen die selbe Karte auf den selben Stapel zu legen. Wie im echten Spiel gilt auch in der Spielsimlulation: "First come first served". Dabei werden alle RMI-Methoden mit dem \textbf{synchronized}-Schlüsselwort synchronisiert.
+
+\subsubsection{Spielstop währenddem eine Karte gelegt wird}
+Wird das Spiel während einem Versuch, eine Karte auf den Stapel zu legen beendet, darf die Karte gemäss Spielregeln nicht mehr gelegt werden. Dies kann erreicht werden, indem man die Erfolgsmeldung mit dem Spielstatus verknüpft. Ist das Spiel beim Aufruf der legeKarte-Methode beendet, wird in jedem Fall false zurückgegeben.
 
 \subsection{Zuverlässigkeit}
 
-%was passiert, wenn nachrichten verloren gehen (geht nicht, RMI ist synchron (hähä, wissen wir noch gar nicht ...))
-%was passiert, wenn clients oder der server abstürzen
+\subsubsection{Verlorenes Netzwerkpaket}
+Da wir uns für den Einsatz von RMI entschieden haben, brauchen wir uns um Paketverlust etc. keine Gedanken zu machen. RMI benutzt TCP zur Kommunikation und stellt somit die Übermittlung einer Nachricht sicher.
 
+\subsubsection{Absturz eines Spielers}
+Stürzt ein Spieler während des Spiels ab, so beeinträchtigt das den Verlauf des Spiels nicht. Um eine lange Antwortzeit beim Legen einer Karte zu vermeiden werden ihn seine Nachbarn für weitere Anfrageversuche ignorieren.
+
+\subsubsection{Absturz des Servers}
+Da der Server für die Übermittlung der Ligretto-Stop-Nachricht verantwortlich ist, hätte ein Serverabsturz zur Folge dass alle Spieler Spielen, bis sie ihren Ligrettostapel abgearbeitet haben, und dann beim Aufruf der ligrettoStop-Methode erfahren, dass der Server keine Antwort mehr gibt. Der Spielausgang wäre damit verfälscht und nicht brauchbar.
 
 \subsection{Skallierbarkeit}
+
+Gemäss Spielregeln braucht es mindestens zwei Spieler für ein Ligrettospiel. Gegen oben existieren keine Grenzen. Dadurch dass nur eine Kommunikation mit einer konstanten Anzahl Nachbarn erfolgt, bleibt die Netzwerkauslastung und der Rechenaufwand pro Spieler auch bei steigender Anzahl Gegner konstant. Je nach Implementation können Nachrichten, welche an alle Spieler gehen (spielStart und spielEnde) durch Grenzen der Netzwerkgeschwindigkeit etwas verspätet eintreffen.
 
 %Bewertungsmassstab:
 % Bei Ligretto berücksichtigen, dass die Anzahl Spieler steigen kann.

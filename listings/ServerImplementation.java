@@ -8,5 +8,5 @@ public class ServerImplementation implements Server {
 	private List<List<Karte>> decks;
 
 	// Methodenimplementation
-	public void ligrettoStop() throws RemoteException { ... }
+	public static void ligrettoStop() throws RemoteException { ... }
 }
