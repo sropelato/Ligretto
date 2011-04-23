@@ -1,30 +1,8 @@
-%\documentclass{templatearticle}
-% -----------------------------------------------------------------------------
-% User settings
-% -----------------------------------------------------------------------------
-%\myDoctype {}
-%\myDivision {}
-%\myTitle {}
-%\mySubTitle {}
-%\myAuthor {Rolf Koch}
-%\myVersion {1.0}
-%\myLanguage{german} % german or english
-% -----------------------------------------------------------------------------
-% Document: provide the two files abstract.tex and history.tex
-% -----------------------------------------------------------------------------
-%\begin{document}
-%\setupLanguage            % setup configured language
-%\setupWatermarks          % setup watermarks
-%\printTitlePage{abstract} % include "abstract.tex"
-%\printLeader{history}     % include "history.tex"
-% -----------------------------------------------------------------------------
-% Input user files with LaTex text sections
-% -----------------------------------------------------------------------------
-
 \documentclass[a4paper,oneside]{scrartcl}
 \pdfcompresslevel=9
 
 \usepackage{geometry}
+\usepackage[mediumspace,mediumqspace,Grey,squaren]{SIunits}
 
 % define input encoding
 \usepackage[utf8x]{inputenc}
@@ -59,6 +37,9 @@
 
 % to include a PDF directly into the generated document
 \usepackage{pdfpages}
+
+% for Todos
+\usepackage{todonotes}
 
 % to enable the H argument when placing graphics in the document
 \usepackage{float}
@@ -107,6 +88,10 @@
 \definecolor{blue-gray}{rgb}{0.87, 0.89, 0.92}
 \definecolor{dark-blue-gray}{rgb}{0.43, 0.44, 0.46}
 \definecolor{dark-blue}{rgb}{0.2, 0.2, 0.7}
+
+%Style Definitions
+\setlength\parindent{0px}
+\setlength{\parskip}{2mm}
 
 % Big Tables across Pages
 \usepackage{longtable}

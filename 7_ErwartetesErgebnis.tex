@@ -2,19 +2,87 @@
 
 Unser geplantes Spiel Layout sieht vor, dass jeder Client eigentlich nur seine bis zu 6 Nachbarn kennt. Der rest des Spiels ist ihm nicht direkt bekannt. Dadurch wollen wir erreichen, dass der Workload lokal in einer kleinen Gruppe bleibt und sich nicht aufs komplette System exponentiell auswirkt.
 
-Figure~\ref{ergebnisspiellayout} zeigt wie genau sich der Client verhält und was genau er überhaupt wahr nimmt.
-Er bekommt vom Server alle nötigen inputs und versucht danach auf den Stapeln von sich selbst und den Stapeln seiner Nachbarn seine Karten los zu werden. Gelingt ihm dies nicht geht er weiter zur nächsten Karte, bis es ihm gelingt. Wir hatten uns überlegt zuerst zu prüfen ob auf einem Nachbar Stapel eine Karte gelegt werden könnte und es dann zu tun, sind aber von diesem Ansatz wieder weggekommen, weil in der Zwischenzeit bereits andere Clients dem Client sehr wahrscheinlich zuvorkommen würden und damit viele versuche eine Karte zu legen sowieso misslingen wird. Ob wird nun ständig versuchen eine Karte zu legen oder ob wir ständig Prüfen ob eine Karte legbar ist und danach versuchen die Karte zu legen kommt fast auf das selbe hinaus.
-
-
 \begin{figure}[hbt]
   \centering
-  \includegraphics[width=19\textwidth,angle=0]{graphics/SpielLayout.png}
+  \includegraphics[width=0.9\textwidth,angle=0]{graphics/SpielLayout.png}
   \caption{Spiel aus Client-Sicht \hfill{} }
   \label{ergebnisspiellayout}
  \end{figure}
 
+Figure~\ref{ergebnisspiellayout} zeigt wie sich der Client verhält und was er wahr nimmt.
+Er bekommt vom Server alle nötigen Inputs und versucht auf den Stapeln von sich selbst und den Stapeln seiner Nachbarn seine Karten zu legen. Gelingt ihm dies nicht, geht er weiter zur nächsten Karte, bis es ihm gelingt. Wir hatten uns überlegt zuerst zu prüfen ob auf einem Nachbar Stapel eine Karte gelegt werden könnte und es dann zu tun, sind aber von diesem Ansatz wieder abgekommen, weil in der Zwischenzeit bereits andere Clients dem Client sehr wahrscheinlich zuvorkommen würden und damit viele Versuche eine Karte zu legen sowieso misslingen würden. Ob der Client ständig versucht eine Karte zu legen oder ob er ständig Prüft ob eine Karte legbar ist und danach versuchen die Karte zu legen kommt fast auf das selbe hinaus. Wir haben uns aber dafür entschieden nur die Karten zu legen, da damit die RMI Calls minimiert werden.
+
+Generell hat unsere Verteilte Lösung ein Problem sobald ein Client ausfällt. Sollte ein Nachbar ausfallen, so wartet der Client unter umständen sehr lange auf einen Timeout, bis er weiter machen kann. Vermutlich sind in der Zeit andere Clients bereits mit ihrem Spiel fertig und alle Nachbarn des ausgefallenen Clients waren nur am warten auf den Timeout.
+
+Um dieses Risiko zu vermindern muss garantiert werden, dass kein Client ausfällt und ansonsten das Spiel nochmal wiederholt wird.
+
+
+
 \subsection{Auswirkungen bei starker Skallierung}
 
+Aufgrund unserer geplanten limitierung des Clients auf seine 6 Nachbarn wird der Workload innerhalb des Spiels linear Verteilt. 
+
+Jeder Client hat egal wie gross das Spiel ist immer nur 6 Nachbarn, die versuchen bei ihm Karten auf die Stapel zu legen. Damit erhöht sich der Workload für die Clients nicht egal wie viele Clients am Spiel teilnehmen.
+
+Der Knackpunkt ist jedoch die Verteilung des Start- und End-Signals.
+
+
+\subsubsection{Start- und End-Signal ohne Timestamp}
+
+\color{red}
+\textbf{WELCHE LÖSUNG WÄHLEN WIR? ICH HABE MAL BEIDE DOKUMENTIERT}
+\color{black}
+
+Der grösste Knackpunkt ist die zeitliche Verteilung des SpielStart und SpielBeenden Signals ohne Timestamps.
+
+In einem 100 Mbit/s Lan  ist die durchschnittliche Latency bei ca. \unit{60}{\micro\second}.
+
+Dadurch ergibt sich pro Client ein Zeitzuwachs für das Verteilen des SpielStart und SpielBeenden Signals.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.9\textwidth,angle=0]{graphics/latency.png}
+  \caption{Zeit zum Verteilen des Start oder End Signals \hfill{} }
+  \label{ergebnislatency}
+ \end{figure}
+ 
+Abbildung~\ref{ergebnislatency} zeigt wie sich die Zeitdauer verlängert mit erhöhter Client Anzahl.
+ 
+\textbf{Problem:}
+
+Jeder Client hat immer 4 Karten die erlegen muss plus eine Karte aus seinen Handkarten, die er optional auch noch legen könnte. Jede Karte versucht er bei 6 Nachbarn zu legen. Wir gehen von einer Fehlerrate von ca 98\% aus. Das heisst nur eine aus 50 Karten kann überhaupt gelegt werden. Tendenziell geht diese Fehlerquote sogar eher noch höher.
+
+Im Best Case legt der Gewinner des Spiels genau 10 Karten, im Worst Case legt er 36 Karten.
+Im Durchschnitt legt der Sieger eines Spiels (Reales Spiel mit Karten) ca 20 Karten. 
+
+\textbf{Best Case:} Um 10 Karten zu legen bei einer 98\% Fehlerrate muss der Client 500 versuche starten eine Karte zu legen. \unit{500} * \unit{60}{\micro\second} = \unit{30000}{\micro\second} = \unit{30}{\milli\second}.
+
+\textbf{Average Case:} Um 20 Karten zu legen bei einer 98\% Fehlerrate muss der Client 1000 Versuche starten eine Karte zu legen. \unit{1000} * \unit{60}{\micro\second} = \unit{60000}{\micro\second} = \unit{60}{\milli\second}.
+
+\textbf{Worst Case:} Um 34 Karten zu legen bei einer 98\% Fehlerrate muss der Client 1700 Versuche starten eine Karte zu legen. \unit{1700} * \unit{60}{\micro\second} = \unit{102000}{\micro\second} = \unit{102}{\milli\second}.
+
+\textbf{Fazit:}
+
+Bereits ab einer Spielerzahl von ca. 100 Clients hat der erste Spieler im Best-Case bereits gewonnen, bevor der letzte das Start Signal erhält.
+
+Ab einer Spielerzahl von 200 hat bereits im Average-Case der erste Spieler gewonnen  und ab einer Spielerzahl von 350 tritt sogar der Worst-Case ein.
+
+Man kann also sagen, dass das Spielresultat voraussichtlich nur bis etwa 10 Spieler einigermassen Zufällig ist. Von 10 bis 50 ist der Vorteil bereits klar bei den ersten 10 Spielern und alle Spieler von 50-100 haben eigentlich keine Chance zu gewinnen, da der Gewinner sicher unter den ersten 50 sein wird. 
+
+\subsubsection{Start- und End-Signal als Timestamp}
+
+\color{red}
+\textbf{DIES WÄR DIE ALTERNATIVE LÖSUNG}
+\color{black}
+
+Werden Timestamps benutzt um die Start- und End-Signale zu übertragen stellt dies zwar grössere Anforderungen an die Zeit Synchronisation und die KI, aber die Chance, dass ein Client gewinnt ist dabei absolut zufällig.
+
+Der erste Knackpunkt ist das Karten verteilen und das Spiel start Signal. Der Server benötigt eine gewisse Zeit die Karten zu verteilen. Anschliessend benötigt er eine gewisse Zeit allen Teilnehmern das Spiel Start Signal zu übermitteln. Um sicherzustellen, dass alle zur gleichen Zeit starten haben wir uns entschieden das Startsignal in Form eines Startzeitpunkts ein paar Sekunden in der Zukunft zu definieren. Damit ist sichergestellt, dass alle Clients exakt zum gleichen Zeitpunkt mit dem Spiel starten können.
+
+
+Der zweite Knackpunkt in unserem System mit sehr vielen Clients ist der Zeitpunkt zu dem ein Client Ligretto Stop ruft. In dem Augenblick muss der Server bei allen Clients das Spiel beenden. Dies kann bei sehr vielen Clients eine gewisse Zeit dauern, bis alle Clients das Stop Signal bekommen haben. Da wir aber mit einem Timestamp sicherstellen, dass das Stopsignal auch rückwirkend gültig ist, ist auch dies kein Problem. Es stellt aber ein paar Anforderungen an die KI, ihre Schritte rückgängig zu machen, sollte das Stopsignal erst einige Zeit nach dem eigentlichen Stopzeitpunkt ankommen.
+
+Der dritte unkritische Knackpunkt ist das abholen der Punkte. Der Server hat dafür jedoch keinen Zeitdruck, da alle Clients bereits gestoppt sind. Es kann aber einfach eine gewisse Zeit dauern, bis alle Clients ihre Punkte abgegeben haben, da der Server jeden einzelnen anfragen muss.
 
 
 
