@@ -8,6 +8,9 @@ Client 1 hat vom Server Client 2 bis Client 7 als Nachbarn zugewiesen bekommen. 
   \caption{Sequenzdiagramm: Kartenlegen}
 \end{figure}
 
+Dadurch, dass nicht zuerst der Status der Spiel-Stapel der Nachbarn abgefragt werden muss und danach versucht wirde eine Karte zu lege, ist die Kommunikation auf den Versuch einfach eine Karte zu legen minimiert. Es wird also nur eine Karte übertragen und entweder "true" für den Erfolg oder "false" für den Misserfolg zurückgegeben.
+Zudem verwaltet jeder Spieler (Client) seine eigenen Spiel-Stapel vor sich. Diejenigen die er selbst erstellt hat mit einer Eins. Der Spieler muss also nur maximal 4 Spiel-Stapel verwalten auf die andere Spieler (Clients) Zugriff haben. 
+Auch ist die anzahl Spieler die auf diese Spiel-Stapel Zugriff haben beschränkt, indem jeder Spieler nur 6 Nachbarn bekommt, mit denen er spielen kann. Wenn diese Nachbarn Sinnvoll verteilt sind, also das heisst solche Spieler die Lokalisationsmässig nahe beieinander liegen auch Nachbarn sind, findet die Kommunikation nur lokal statt und somit wirde ebenfalls die Kommunikation über das globale Netz minimiert.
 % Bewertungsmasstab:
 % - Ist der Algorithums zur Lösung der Teilafugaben nachvollziehbar? (3 Punkte)
 
