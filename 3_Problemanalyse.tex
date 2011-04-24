@@ -75,44 +75,6 @@ Zur Kommunikation werden folgende Transiente Objekte erstellt:
 	\item Stapel mit gemischten Karten, welche vom überwachenden Prozess an die Mitspieler verteilt werden
 \end{enumerate}
 
-\subsection{Kommunikation}
-
-Bei der definition der Kommunikation muss gleichzeitig die Korrektheit und die Performance beachtet werden.
-
-Der Ablauf lässt sich in folgende Abschnitte unterteilen:
-\begin{enumerate}
-	\item Während dem {\bf Aufbau} werden die Spielkarten durch den Server vorbereitet und an die registrierten Clients verteilt
-	\item Stop-Signal eines Mitspielers
-	\item Stapel mit gemischten Karten, welche vom Überwachenden Prozess an die Mitspieler verteilt werden
-\end{enumerate}
-
-
-%für was wird wie kommuniziert
-
-\subsubsection{Vor Spielbeginn}
-
-Ausgangslage bei Spielbeginn ist folgende:
-\begin{itemize}
-	\item Der Server kennt alle Spieler, die an dieser Spielrunde teilnehmen.
-	\item Dem Server stehen eine entsprechende Anzahl gut gemischter Kartendecks zur Verfügung.
-	\item Kommunikationsgrundlagen (Netzwerk, RMIRegistry, etc...) sind gegeben.
-\end{itemize}
-
-\subsubsection{Spielinitialisierung}
-Zuerst initialisiert der Server alle ihm bekannten Spieler, indem er über RMI deren \textit{init}-Methode aufruft. Dabei werden sämtliche Informationen, die ein Spieler kennen muss, übermittelt (Referenz zum Server und zu den Mitspielern, die gemischten Karten).
-
-\subsubsection{Spielstart}
-Nach der Initialisierung werden alle Spieler über den Spielstart informiert. Dies geschieht über den Remoteaufruf der Methode \textit{spielStart}.
-
-\subsubsection{Während des Spiels}
-Sobald ein Spieler über den Spielstart informiert wurde, versucht er der Reihe nach, die Karten aus seinen Spielslots oder jene aus seinem Handstapel auf einen eigenen oder den Stapel eines Nachbarn zu legen. Für einen Versuch auf dem eigenen Stapel ist kein Remoteaufruf nötig. Um die Karte bei einem Nachbarn zu platzieren, wird diesem die Karte mittels Aufruf der Methode \textit{legeKarte} übergeben. Hat die Karte auf einem Stapel platz gefunden, so bestätigt dies der Empfänger der Karte mit \textit{true}, ansonsten gibt er \textit{false} zurück und die Karte geht wieder zurück in den Slot bzw. in den Handkartenstapel.
-
-\subsubsection{Ligretto Stop!}
-Ist der Ligrettostapel eines Spielers leer, so ruft er die \textit{ligrettoStop}-Methode des Servers auf. Dieser übermittelt diese Botschaft allen Spielern, indem er deren \textit{spielEnde}-Methode aufruft.
-
-\subsubsection{Punkte zählen}
-Nach Spielende ruft der Server von allen Spielern den Punktestand ab. Dies geschieht über dem RMI-Aufruf der Methode \textit{getPunkte}.
-
 
 \subsection{Concurrency-Problem}
 
