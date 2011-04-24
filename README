@@ -1,6 +1,0 @@
--	Formatierungsrichtlinien
-	-	Als Codierung für alle Textdokumente wird ausschliesslich UTF-8 verwendet.
-	-	Zeilen werden durch LF (ohne CR) beendet.
-	-	Strukturierte Listen jeweils mit einem Tabulator pro Einzugstiefe einrücken (siehe aktuelles Dokument).
-	-	Referenzen auf einzubindende Dokumente werden durch ihren zum Dokument relativen Pfad in spitzigen Klammern vermerkt. Beispiel: <beispiel/grafik1.pdf>
-	-	Kommentare, welche nicht in das entgültige Dokument zu übernehmen sind, werden in HTML-Syntax markiert. Beispiel: <!-- kommentar -->
