@@ -74,7 +74,7 @@ Abbildung~\ref{SequenzdiagramClient} zeigt das Verhalten des Clients gegenüber 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.60\textwidth,angle=0]{graphics/KarteLegen.pdf}
-  \caption{Sequenzdiagramm zum Legen einer Karte [Papier und Stift FTW] \hfill{} }
+  \caption{Sequenzdiagramm zum Legen einer Karte\hfill{} }
   \label{SequenzdiagramClient}
 \end{figure}
 
@@ -111,6 +111,31 @@ Sobald ein Spieler über den Spielstart informiert wurde, versucht er der Reihe 
 
 \subsubsection{Ligretto Stop!}
 Ist der Ligrettostapel eines Spielers leer, so ruft er die \textit{ligrettoStop}-Methode des Servers auf. Dieser übermittelt diese Botschaft allen Spielern, indem er deren \textit{spielEnde}-Methode aufruft.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth,angle=0]{graphics/LigrettoStop.pdf}
+  \caption{Sequenzdiagramm zum auslösen des Ligretto-Stop-Signals\hfill{} }
+  \label{LigrettoStop}
+\end{figure}
+
+Durch die Parallelität des Systems ist es möglich, dass während dem legen einer Karte das Spiel beendet wird. Im folgenden Beispiel will der Client y auf einem Stapel des Clients y eine Karte ablegen. Falls der Client y die die Nachricht zum Spielende bekommt während er noch auf eine Antwort des Clients x wartet, so muss diser warten, bis er eine Antwort bekommt.
+
+Beim Client x wird entschieden, welche Nachricht zu erst eingetroffen ist.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth,angle=0]{graphics/LigrettoStop_Kollision_A.pdf}
+  \caption{Race-Condition beim legen einer Karte, der legende Client gewinnt\hfill{} }
+  \label{LigrettoStop_Kollision_A}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth,angle=0]{graphics/LigrettoStop_Kollision_B.pdf}
+  \caption{Race-Condition beim legen einer Karte, der legende Client verliert\hfill{} }
+  \label{LigrettoStop_Kollision_B}
+\end{figure}
 
 \subsubsection{Punkte zählen}
 Nach Spielende ruft der Server von allen Spielern den Punktestand ab. Dies geschieht über dem RMI-Aufruf der Methode \textit{getPunkte}.
