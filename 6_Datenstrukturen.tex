@@ -14,34 +14,47 @@ Abbildung~\ref{Klassendiagramm} bildet die Klassen und Interfaces und alle Daten
 	\label{Klassendiagramm}
 \end{figure}
 
+\newpage
 
 \subsection{Karte}
 
-Die Karte hat eine {\bf Farbe} (Rot, Gelb, Grün oder Blau) und eine {\bf Zahl} (zwischen eins und zehn). Sie ist ein serialisierbares Objekt, das zwischen dem Server und verschiedenen Spielern ausgetauscht werden kann.
+Die Karte hat eine {\bf Farbe} (Rot, Gelb, Grün oder Blau) und eine {\bf Zahl} (zwischen eins und zehn). Sie ist ein serialisierbares Objekt, welches zwischen dem Server und verschiedenen Spielern ausgetauscht werden kann.
 
 \lstinputlisting{listings/Karte.java}
 
+\newpage
 
 \subsection{Server}
 
-Das Serverinterface definiert eine Methode {\bf ligrettoStop()}, welche von dem Spieler, der als erster alle Karten seines Ligrettostapels verspielt hat, aufgerufen wird.
+Das \textbf{Serverinterface} definiert eine Methode \textit{ligrettoStop()}, welche von dem Spieler, der als erster alle Karten seines Ligrettostapels verspielt hat, aufgerufen wird.
 
 \lstinputlisting{listings/Server.java}
 
-Die Klasse ServerImplementation besitzt zwei Listen; {\bf spieler}, worin alle am Spiel teilnehmenden Spieler enthalten sind und {\bf decks}, welche bereits gemischte Kartenstapel à 40 Karten für die Spieler enthält.
+Die Klasse \textit{ServerImplementation} besitzt zwei Listen; \textit{spieler}, worin alle am Spiel teilnehmenden Spieler enthalten sind und \textit{decks}, welche bereits gemischte Kartenstapel à 40 Karten für die Spieler enthält.
 
 \lstinputlisting{listings/ServerImplementation.java}
 
+\newpage
 
 \subsection{Spieler}
 
-Ein Spieler kennt vier Methoden. Mit dem Aufruf von {\bf init()} erhält er alle Informationen, die er zum Spiel kennen muss. Wer ist der Server? Wer sind meine Nachbarn? Was sind meine Karten? Dabei werden die 40 Karten gemäss den Spielregeln auf Ligretto-, Spiel- und Handkartenstapel sowie auf die vier Slots aufgeteilt. Das Spiel wird mit {\bf spielStarten()} begonnen. Ab diesem Aufruf spielt der Spieler bis er oder ein Gegner das Spiel beendet. Die Methode {\bf legeKarte()} kann vom Spieler selbst oder von einem seiner Nachbarn aufgerufen werden. Dabei wird eine Karte übergeben und, wenn sie auf einen der Spielstapel passt, niedergelegt. Im Erfolgsfall wird dabei true zurückgegeben, ansonsten false. Ein Aufruf von {\bf spielBeenden()} beendet das Spiel. Zuletzt wird {\bf getPunkte()} vom Server aufgerufen um den Sieger der aktuellen Spielrunde zu ermitteln.
+Ein \textbf{Spieler} kennt vier Methoden. Mit dem Aufruf von \textit{init()} erhält er alle Informationen, die er zum Spiel kennen muss. Wo ist der Server? Wo sind meine Nachbarn? Was sind meine Karten?
+
+Dabei werden die 40 Karten gemäss den Spielregeln auf Ligretto-, Spiel- und Handkartenstapel sowie auf die vier Slots aufgeteilt. Das Spiel wird mit \textit{spielStarten()} begonnen. Ab diesem Aufruf spielt der Spieler, bis er (oder ein Gegner) das Spiel beendet. Die Methode \textit{legeKarte()} kann vom Spieler selbst oder von einem seiner Nachbarn aufgerufen werden. Dabei wird eine Karte übergeben und (wenn sie auf einen der Spielstapel passt) niedergelegt. Im Erfolgsfall wird dabei \textit{true} zurückgegeben, ansonsten \textit{false}. Ein Aufruf von \textit{spielBeenden()} beendet das Spiel. Zuletzt wird \textit{getPunkte()} vom Server aufgerufen um den Sieger der aktuellen Spielrunde zu ermitteln.
 
 \lstinputlisting{listings/Spieler.java}
 
-SpielerImplementation implementiert das eben beschriebene Spielerinterface. Dabei werden folgende Attribute definiert: {\bf server} - die Serverinstanz, die das Spiel kontrolliert. {\bf nachbarn} - eine Liste aller Nachbarn. {\bf ligrettoStapel} - ein Stapel mit anfänglich zehn Karten, die möglichst rasch verspielt werden müssen. {\bf spielStapel} - Die (maximal vier) Stapel, auf die alle Spieler ihre Karten legen können. {\bf handKarten} - der Stapel mit den Karten, die der Spieler in der Hand hält. {\bf slots} - die vier offen liegenden Karten, die neben dem Ligrettostapel platziert werden.
+\newpage
+
+\textbf{SpielerImplementation} implementiert das oben beschriebene Spielerinterface. Dabei werden folgende Attribute definiert: 
+
+\begin{enumerate}
+	\item\textit{server}: die Serverinstanz, die das Spiel kontrolliert
+	\item\textit{nachbarn}: eine Liste aller Nachbarn
+	\item\textit{ligrettoStapel}: ein Stapel mit anfänglich zehn Karten, die möglichst rasch verspielt werden müssen
+	\item\textit{spielStapel}: Die (maximal vier) Stapel, auf die alle Spieler ihre Karten legen können
+	\item\textit{handKarten}: der Stapel mit den Karten, die der Spieler in der Hand hält
+	\item\textit{slots}: die vier offen liegenden Karten, die neben dem Ligrettostapel platziert werden
+\end{enumerate}
 
 \lstinputlisting{listings/SpielerImplementation.java}
-
-
-

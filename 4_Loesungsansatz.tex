@@ -1,10 +1,12 @@
 \section{Lösungsansatz} 
 
-Wir benutzen RMI.
+Client 1 hat vom Server Client 2 bis Client 7 als Nachbarn zugewiesen bekommen. Als erstes selektiert der Client 1 eine Karte und versucht diese bei sich selbst Legen. Gelingt dies nicht, versucht er die Karte bei einem seiner 6 Nachbarn zu legen, indem er ihnen die Karte übergibt und, falls sie gelegt werden konnte, eine Erfolgsmeldung (\textit{true}) oder ansonsten eine Misserfolgsmeldung (\textit{false}) zurückbekommt. Konnte er die selektierte Karte legen, wird diese gelöscht und eine neue Karte wird selektiert, mit welcher wieder von vorne begonnen wird. Das Beispiel von Client 1 ist representativ für alle Clients. 
 
-\color{red}
-\textbf{Mehr schreiben}
-\color{black}
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.90\textwidth,angle=0]{graphics/Kartenlegen_Sequenzdiagramm.png}
+  \caption{Sequenzdiagramm: Kartenlegen}
+\end{figure}
 
 % Bewertungsmasstab:
 % - Ist der Algorithums zur Lösung der Teilafugaben nachvollziehbar? (3 Punkte)
