@@ -40,16 +40,12 @@ Dazu gehören:
 
 Abbildung~\ref{SequenzdiagramServer} zeigt das Verhalten des Servers gegenüber den Clients.
 
-\color{red}
-\textbf{Abbildung Spielablauf\_Sequenzdiagramm.png sollte hier hin}
-\color{black}
-
- \begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.80\textwidth,angle=0]{graphics/Spielablauf_Sequenzdiagramm.png}
-  \caption{Sequenzdiagramm für den Spielablauf aus Serversicht \hfill{} }
+  \caption{Sequenzdiagramm für den Spielablauf aus Serversicht\hfill{} }
   \label{SequenzdiagramServer}
- \end{figure}
+\end{figure} 
 
 \begin{enumerate}
 	\item Der Server wird nur für den Start und das Ende des Spieles benötigt. Das Spiel selber läuft via Peer to Peer ab.
@@ -110,7 +106,7 @@ Nach der Initialisierung werden alle Spieler über den Spielstart informiert. Di
 Sobald ein Spieler über den Spielstart informiert wurde, versucht er der Reihe nach, die Karten aus seinen Spielslots oder jene aus seinem Handstapel auf einen eigenen oder den Stapel eines Nachbarn zu legen. Für einen Versuch auf dem eigenen Stapel ist kein Remoteaufruf nötig. Um die Karte bei einem Nachbarn zu platzieren, wird diesem die Karte mittels Aufruf der Methode \textit{legeKarte} übergeben. Hat die Karte auf einem Stapel platz gefunden, so bestätigt dies der Empfänger der Karte mit \textit{true}, ansonsten gibt er \textit{false} zurück und die Karte geht wieder zurück in den Slot bzw. in den Handkartenstapel.
 
 \subsubsection{Ligretto Stop!}
-Ist der Ligrettostapel eines Spielers leer, so ruft er die \textit{ligrettoStop}-Methode des Servers auf. Dieser übermittelt diese Botschaft allen Spielern, indem er deren \textit{spielEnde}-Methode aufruft.
+Ist der Ligrettostapel eines Spielers leer, so ruft er die \textit{ligrettoStop}-Methode des Servers auf (Abbildung~\ref{LigrettoStop}). Dieser übermittelt diese Botschaft allen Spielern, indem er deren \textit{spielEnde}-Methode aufruft.
 
 \begin{figure}[H]
   \centering
@@ -119,7 +115,7 @@ Ist der Ligrettostapel eines Spielers leer, so ruft er die \textit{ligrettoStop}
   \label{LigrettoStop}
 \end{figure}
 
-Durch die Parallelität des Systems ist es möglich, dass während dem legen einer Karte das Spiel beendet wird. Im folgenden Beispiel will der Client y auf einem Stapel des Clients y eine Karte ablegen. Falls der Client y die die Nachricht zum Spielende bekommt während er noch auf eine Antwort des Clients x wartet, so muss diser warten, bis er eine Antwort bekommt.
+Durch die Parallelität des Systems ist es möglich, dass während dem legen einer Karte das Spiel beendet wird (Abbildung~\ref{LigrettoStop_Kollision_A}, Abbildung~\ref{LigrettoStop_Kollision_B}). Im folgenden Beispiel will der Client y auf einem Stapel des Clients y eine Karte ablegen. Falls der Client y die die Nachricht zum Spielende bekommt während er noch auf eine Antwort des Clients x wartet, so muss diser warten, bis er eine Antwort bekommt.
 
 Beim Client x wird entschieden, welche Nachricht zu erst eingetroffen ist.
 

@@ -30,10 +30,6 @@ Der Knackpunkt ist jedoch die Verteilung des Start- und Endsignals.
 
 \subsubsection{Start- und Endsignal ohne Timestamp}
 
-\color{red}
-\textbf{WELCHE LÖSUNG WÄHLEN WIR? ICH HABE MAL BEIDE DOKUMENTIERT}
-\color{black}
-
 Der grösste Knackpunkt ist die zeitliche Verteilung des \textit{SpielStart} und \textit{SpielBeenden} Signals \textbf{ohne} Timestamps.
 
 In einem 100 Mbit/s LAN  ist die durchschnittliche Latenz bei ca. \unit{60}{\micro\second}.
@@ -71,16 +67,14 @@ Man kann also sagen, dass das Spielresultat voraussichtlich nur bis etwa 10 Spie
 
 \subsubsection{Start- und Endsignal als Timestamp}
 
-\color{red}
-\textbf{DIES WÄR DIE ALTERNATIVE LÖSUNG}
-\color{black}
+Als alternative zu der oben beschriebenen Problematik währe folgender Lösungsvorschlag machbar: Alle Signale werden in Form eines Timestamps übertragen. Dies setzt jedoch hohe anforderungen an die Zeitsynchronisation und an die KI.
 
 Werden Timestamps benutzt, um die Start- und Endsignale zu übertragen, stellt dies zwar grössere Anforderungen an die Zeitsynchronisation und die KI, aber die Möglichkeit, dass ein Client gewinnt, ist dabei absolut zufällig.
 
-Der erste Knackpunkt ist die Verteilung der Karten sowie das Startsignal. Der Server benötigt eine gewisse Zeit, um die Karten zu verteilen. Anschliessend benötigt er eine gewisse Zeit, allen Teilnehmern das Startsignal zu übermitteln. Um sicherzustellen, dass alle zur gleichen Zeit starten, haben wir uns entschieden, das Startsignal in Form eines Startzeitpunkts ein paar Sekunden in der Zukunft zu definieren. Damit kann sichergestellt werden, dass alle Clients exakt zum gleichen Zeitpunkt mit dem Spiel starten können.
+Der erste Knackpunkt ist die Verteilung der Karten sowie das Startsignal. Der Server benötigt eine gewisse Zeit, um die Karten zu verteilen. Anschliessend benötigt er eine gewisse Zeit, allen Teilnehmern das Startsignal zu übermitteln. Um sicherzustellen, dass alle zur gleichen Zeit starten, könnte man das Startsignal in Form eines Startzeitpunkts ein paar Sekunden in der Zukunft zu definieren. Damit kann sichergestellt werden, dass alle Clients exakt zum gleichen Zeitpunkt mit dem Spiel starten können.
 
 
-Der zweite Knackpunkt in unserem System mit sehr vielen Clients ist der Zeitpunkt, zu dem ein Client \textit{Ligretto-Stop!} aufruft. In diesem Augenblick muss der Server bei allen Clients das Spiel beenden. Dies kann bei sehr vielen Clients eine gewisse Zeit dauern, bis alle Clients das Stopsignal bekommen haben. Da wir aber mit einem Timestamp sicherstellen, dass das Stopsignal auch rückwirkend gültig ist, ist auch dies kein Problem. Es stellt aber erweiterte Anforderungen an die KI, ihre Schritte rückgängig zu machen, sollte das Stopsignal erst einige Zeit nach dem eigentlichen Stopzeitpunkt ankommen.
+Der zweite Knackpunkt in unserem System mit sehr vielen Clients ist der Zeitpunkt, zu dem ein Client \textit{Ligretto-Stop!} aufruft. In diesem Augenblick muss der Server bei allen Clients das Spiel beenden. Dies kann bei sehr vielen Clients eine gewisse Zeit dauern, bis alle Clients das Stopsignal bekommen haben. Man könnte mit einem Timestamp sicherstellen, dass das Stopsignal auch rückwirkend gültig ist. Es stellt aber erweiterte Anforderungen an die KI, ihre Schritte rückgängig zu machen, sollte das Stopsignal erst einige Zeit nach dem eigentlichen Stopzeitpunkt ankommen.
 
 Der dritte (jedoch unkritische) Knackpunkt ist das Abholen der Punkte. Der Server hat dafür jedoch keinen Zeitdruck, da alle Clients bereits gestoppt sind. Es kann aber eine gewisse Zeit dauern, bis alle Clients ihre Punkte abgegeben haben, da der Server jeden einzelnen anfragen muss.
 
